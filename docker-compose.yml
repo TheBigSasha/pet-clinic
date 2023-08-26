@@ -9,7 +9,8 @@ services:
     image: quarkus-petclinic-native:latest
     environment:
       - QUARKUS_DATASOURCE_JDBC_URL=jdbc:postgresql://quarkus-petclinic-db:5432/mydb
-    ports:
+      - QUARKUS_DATASOURCE_USERNAME=developer
+      - QUARKUS_DATASOURCE_PASSWORD=developer
       - "8080:8080"
     depends_on:
       quarkus-petclinic-db:
