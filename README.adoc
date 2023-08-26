@@ -52,3 +52,5 @@ Need to have an account to quay.io with writting permissions to rhdevelopers org
 
 # OpenShift
 This repo auto deploys on commit on openshift using webhooks.
+
+See deployment at: https://quarkus-petclinic-bc-thebigsasha-dev.apps.sandbox-m3.1530.p1.openshiftapps.com/
