@@ -1,0 +1,55 @@
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: keycloak-postgres-db
+  name: keycloak-postgres-db
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    io.kompose.service: keycloak-postgres-db
+  strategy:
+    resources: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.network/quarkus-petclinic-default: "true"
+        io.kompose.service: keycloak-postgres-db
+    spec:
+      containers:
+        - env:
+            - name: POSTGRES_DB
+              value: keycloak_db
+            - name: POSTGRES_PASSWORD
+              value: password
+            - name: POSTGRES_USER
+              value: keycloak
+          image: ' '
+          name: keycloak-postgres-db
+          ports:
+            - containerPort: 5432
+              hostPort: 5433
+              protocol: TCP
+          resources: {}
+      restartPolicy: Always
+  test: false
+  triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+          - keycloak-postgres-db
+        from:
+          kind: ImageStreamTag
+          name: keycloak-postgres-db:14
+      type: ImageChange
+status:
+  availableReplicas: 0
+  latestVersion: 0
+  observedGeneration: 0
+  replicas: 0
+  unavailableReplicas: 0
+  updatedReplicas: 0

@@ -1,0 +1,77 @@
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: keycloak-petclinic
+  name: keycloak-petclinic
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    io.kompose.service: keycloak-petclinic
+  strategy:
+    resources: {}
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.network/quarkus-petclinic-default: "true"
+        io.kompose.service: keycloak-petclinic
+    spec:
+      containers:
+        - env:
+            - name: DB_ADDR
+              value: keycloak-postgres-db
+            - name: DB_DATABASE
+              value: keycloak_db
+            - name: DB_PASSWORD
+              value: password
+            - name: DB_USER
+              value: keycloak
+            - name: DB_VENDOR
+              value: postgres
+            - name: KEYCLOAK_ADMIN
+              value: admin
+            - name: KEYCLOAK_ADMIN_PASSWORD
+              value: admin
+            - name: KEYCLOAK_IMPORT
+              value: /tmp/realm-export.json
+            - name: KEYCLOAK_REALM
+              value: quarkus
+            - name: KEYCLOAK_USER_REGISTRATION
+              value: "true"
+          image: ' '
+          name: keycloak-petclinic
+          ports:
+            - containerPort: 8080
+              hostPort: 8080
+              protocol: TCP
+          resources: {}
+          volumeMounts:
+            - mountPath: /opt/jboss/keycloak/standalone/data
+              name: keycloak-petclinic-claim0
+      restartPolicy: Always
+      volumes:
+        - name: keycloak-petclinic-claim0
+          persistentVolumeClaim:
+            claimName: keycloak-petclinic-claim0
+  test: false
+  triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+          - keycloak-petclinic
+        from:
+          kind: ImageStreamTag
+          name: keycloak-petclinic:latest
+      type: ImageChange
+status:
+  availableReplicas: 0
+  latestVersion: 0
+  observedGeneration: 0
+  replicas: 0
+  unavailableReplicas: 0
+  updatedReplicas: 0

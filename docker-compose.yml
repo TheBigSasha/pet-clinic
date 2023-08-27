@@ -15,7 +15,7 @@ services:
     depends_on:
       quarkus-petclinic-db:
         condition: service_healthy
-      keycloak:
+      keycloak-petclinic:
         condition: service_healthy
     networks:
       - petclinic

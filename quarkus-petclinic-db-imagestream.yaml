@@ -1,0 +1,23 @@
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: quarkus-petclinic-db
+  name: quarkus-petclinic-db
+  namespace: default
+spec:
+  lookupPolicy:
+    local: false
+  tags:
+    - annotations: null
+      from:
+        kind: DockerImage
+        name: postgres:14
+      generation: null
+      importPolicy: {}
+      name: "14"
+      referencePolicy:
+        type: ""
+status:
+  dockerImageRepository: ""
