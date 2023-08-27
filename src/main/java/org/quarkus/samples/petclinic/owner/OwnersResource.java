@@ -1,5 +1,6 @@
 package org.quarkus.samples.petclinic.owner;
 
+import io.quarkus.security.Authenticated;
 import org.quarkus.samples.petclinic.system.TemplatesLocale;
 import org.quarkus.samples.petclinic.visit.Visit;
 
@@ -26,6 +27,7 @@ import javax.ws.rs.core.MediaType;
 import io.quarkus.qute.TemplateInstance;
 
 @Path("/owners")
+@Authenticated
 public class OwnersResource {
 
     @Inject
@@ -39,7 +41,7 @@ public class OwnersResource {
     @Produces(MediaType.TEXT_HTML)
     /**
      * Renders the findOwners.html
-     * 
+     *
      * @return
      */
     public TemplateInstance findTemplate() {
@@ -51,7 +53,7 @@ public class OwnersResource {
     @Produces(MediaType.TEXT_HTML)
     /**
      * Renders the createOrUpdateOwnerForm.html
-     * 
+     *
      * @return
      */
     public TemplateInstance createTemplate() {
@@ -63,7 +65,7 @@ public class OwnersResource {
     @Produces(MediaType.TEXT_HTML)
     /**
      * Renders the createOrUpdateOwnerForm.html
-     * 
+     *
      * @return
      */
     public TemplateInstance editTemplate(@PathParam("ownerId") Long ownerId) {
@@ -75,7 +77,7 @@ public class OwnersResource {
     @Produces(MediaType.TEXT_HTML)
     /**
      * Renders the createOrUpdateOwnerForm.html
-     * 
+     *
      * @return
      */
     public TemplateInstance showOwner(@PathParam("ownerId") Long ownerId) {
@@ -88,14 +90,14 @@ public class OwnersResource {
     @Transactional
     /**
      * Renders the createOrUpdateOwnerForm.html
-     * 
+     *
      * @return
      */
     public TemplateInstance processCreationForm(@BeanParam Owner owner) {
         final Set<ConstraintViolation<Owner>> violations = validator.validate(owner);
         final Map<String, String> errors = new HashMap<>();
         if (!violations.isEmpty()) {
-            
+
             for (ConstraintViolation<Owner> violation : violations) {
                 errors.put(violation.getPropertyPath().toString(), violation.getMessage());
             }
@@ -107,21 +109,21 @@ public class OwnersResource {
             return templates.ownerDetails(owner);
         }
     }
-    
+
     @POST
     @Path("{ownerId}/edit")
     @Transactional
     @Produces(MediaType.TEXT_HTML)
     /**
      * Renders the createOrUpdateOwnerForm.html
-     * 
+     *
      * @return
      */
     public TemplateInstance processUpdateOwnerForm(@BeanParam Owner owner, @PathParam("ownerId") Long ownerId) {
         final Set<ConstraintViolation<Owner>> violations = validator.validate(owner);
         final Map<String, String> errors = new HashMap<>();
         if (!violations.isEmpty()) {
-            
+
             for (ConstraintViolation<Owner> violation : violations) {
                 errors.put(violation.getPropertyPath().toString(), violation.getMessage());
             }
@@ -160,7 +162,7 @@ public class OwnersResource {
             Owner owner = owners.iterator().next();
             return templates.ownerDetails(setVisits(owner));
         }
-        
+
         return templates.ownersList(owners);
 
     }

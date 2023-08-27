@@ -1,4 +1,4 @@
-version: "3.0"
+version: '3.9'
 
 services:
   quarkus-petclinic-native:
@@ -14,6 +14,8 @@ services:
       - "8080:8080"
     depends_on:
       quarkus-petclinic-db:
+        condition: service_healthy
+      keycloak:
         condition: service_healthy
     networks:
       - petclinic
@@ -35,6 +37,37 @@ services:
     networks:
       - petclinic
 
+  keycloak-postgres-db:
+    image: postgres:14
+    environment:
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: keycloak_db
+    ports:
+      - "5433:5432"
+
+  keycloak:
+    image: jboss/keycloak:latest
+    environment:
+      DB_VENDOR: postgres
+      DB_ADDR: keycloak-postgres-db
+      DB_DATABASE: keycloak_db
+      DB_USER: keycloak
+      DB_PASSWORD: password
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KEYCLOAK_IMPORT: /tmp/realm-export.json
+    volumes:
+        - ./realm-export.json:/tmp/realm-export.json
+        - ./keycloak/themes:/opt/jboss/keycloak/themes
+        -  ./keycloak/standalone/configuration/standalone.xml:/opt/jboss/keycloak/standalone/configuration/standalone.xml
+        - ./keycloak/standalone/configuration/standalone-ha.xml:/opt/jboss/keycloak/standalone/configuration/standalone-ha.xml
+    ports:
+      - "8180:8080"
+    depends_on:
+      - keycloak-postgres-db
+
 networks:
   petclinic:
     driver: bridge
+

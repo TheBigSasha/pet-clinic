@@ -5,7 +5,7 @@ import io.quarkus.qute.i18n.MessageBundle;
 
 @MessageBundle
 public interface AppMessages {
-    
+
     @Message("Find Owner")
     String find_owner();
 
@@ -98,5 +98,17 @@ public interface AppMessages {
 
     @Message("Something happened...")
     String something_wrong();
+
+    @Message("Logout")
+    String logout();
+
+    @Message("Login")
+    String login();
+
+    @Message("Account")
+    String account();
+
+    @Message("Email")
+    String email();
 
 }
