@@ -50,7 +50,5 @@ Need to have an account to quay.io with writting permissions to rhdevelopers org
 ./mvnw package -DskipTests -Dquarkus.container-image.push=true
 ----
 
-# OpenShift
-This repo auto deploys on commit on openshift using webhooks.
-
-See deployment at: https://quarkus-petclinic-bc-thebigsasha-dev.apps.sandbox-m3.1530.p1.openshiftapps.com/
+== For Security
+Keys need to be generated for KeyCloak, and the client secret must be set in environment variables. Then, the project will run. Also, SSL/HTTPS should be enabled in a real deloyment.
