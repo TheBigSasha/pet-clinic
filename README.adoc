@@ -50,11 +50,23 @@ Need to have an account to quay.io with writting permissions to rhdevelopers org
 ./mvnw package -DskipTests -Dquarkus.container-image.push=true
 ----
 
-# OpenShift
-This repo auto deploys on commit on openshift using `kompose`, `oc`, and `kubectl` commands.
+## OpenShift
+Commands to deploy code in this repo to openshift.
+
 ```bash
-oc login #... your dev sandbox login
-oc new-project petclinic
-kompose convert -f docker-compose.yml --provider=openshift -n petclinic
-kubectl apply -f . -n petclinic
+oc login #... your dev sandbox login from the web console
+oc new-project <your-namespace> # you can also use your default project instead which is <your name>-dev
+kompose convert --provider=openshift -n <your-namespace> --build build-config
+oc create -f . -n <your-namespace>
+oc apply -f . -n <your-namespace>
+./mvnw package -DskipTests -Dquarkus.container-image.push=true
+oc expose dc  quarkus-petclinic-db --port 5432
+oc expose dc  quarkus-petclinic --port 8080
+oc expose svc  quarkus-petclinic
 ```
+
+Note, CI/CD is not in place, but can be by triggering a build of `mvnw package` as below on commit.
+
+### Note on failed builds using CLI
+If you see `no matches for kind "BuildConfig" in version "v1" ensure CRDs are installed first`
+change the first line of the `...-buildconfig.yaml` file to `apiVersion: build.openshift.io/v1`
