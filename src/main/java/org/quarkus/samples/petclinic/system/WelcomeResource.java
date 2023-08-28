@@ -12,14 +12,14 @@ import io.quarkus.qute.TemplateInstance;
 
 @Path("/")
 public class WelcomeResource {
-    
+
     @Inject
     TemplatesLocale templates;
 
     @GET
     @Produces(MediaType.TEXT_HTML)
     public TemplateInstance get() {
-        return templates.welcome();
+        return templates.welcome("null", false);
     }
 
 }

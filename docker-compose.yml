@@ -11,6 +11,7 @@ services:
       - QUARKUS_DATASOURCE_JDBC_URL=jdbc:postgresql://quarkus-petclinic-db:5432/mydb
       - QUARKUS_DATASOURCE_USERNAME=developer
       - QUARKUS_DATASOURCE_PASSWORD=developer
+      - AUTH_SESSION_ENCRYPTION_KEY=12345678901234567890123456789012
       - "8080:8080"
     depends_on:
       quarkus-petclinic-db:

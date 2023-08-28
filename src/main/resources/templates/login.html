@@ -1,0 +1,27 @@
+{#include base}
+    {#body}
+        <h2>{msg:welcome}</h2>
+        <div class="row">
+        <div class="col-md-12">
+        <img class="img-responsive" src="…/images/pets.png"/>
+        {#if errors}
+            <div class="alert alert-danger">
+            {#for error in errors}
+                <code>{error}</code>
+            {/for}
+            </div>
+        {/if}
+        <form action="/login" method="post">
+        <div class="form-group">
+            <label for="username">{msg:username}</label>
+            <input type="text" id="username" name="username" class="form-control" required/>
+        </div> <div class="form-group">
+        <label for="password">{msg:password}</label>
+        <input type="password" id="password" name="password" class="form-control" required/>
+    </div>
+        <button type="submit" class="btn btn-primary">{msg:login}</button>
+        </form>
+        </div>
+        </div>
+    {/body}
+{/include}
