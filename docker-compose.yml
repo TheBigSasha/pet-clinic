@@ -5,18 +5,23 @@ services:
     # Build the native image first with the following command: mvn -P native -DskipTests package
     build:
       context: .
-      dockerfile: src/main/docker/Dockerfile.native
+      dockerfile: src/main/docker/Dockerfile.fast-jar
     image: quarkus-petclinic-native:latest
     environment:
       - QUARKUS_DATASOURCE_JDBC_URL=jdbc:postgresql://quarkus-petclinic-db:5432/mydb
       - QUARKUS_DATASOURCE_USERNAME=developer
       - QUARKUS_DATASOURCE_PASSWORD=developer
+      - KEYCLOAK_URL=http://keycloak-petclinic:8080
+      - KEYCLOAK_REALM=quarkus
+      - KEYCLOAK_CLIENT_SECRET=secret
       - "8080:8080"
+    expose:
+      - "8080"
     depends_on:
       quarkus-petclinic-db:
         condition: service_healthy
       keycloak-petclinic:
-        condition: service_healthy
+        condition: service_started
     networks:
       - petclinic
 
@@ -45,6 +50,8 @@ services:
       POSTGRES_DB: keycloak_db
     ports:
       - "5433:5432"
+    networks:
+        - petclinic
 
   keycloak-petclinic:
     image: jboss/keycloak:latest
@@ -65,6 +72,8 @@ services:
       - "8080:8080"
     depends_on:
       - keycloak-postgres-db
+    networks:
+        - petclinic
 
 networks:
   petclinic:
