@@ -5,7 +5,7 @@ metadata:
   labels:
     io.kompose.service: quarkus-petclinic-native
   name: quarkus-petclinic-native
-  namespace: default
+  namespace: thebigsasha-bcexam-dev
 spec:
   lookupPolicy:
     local: false

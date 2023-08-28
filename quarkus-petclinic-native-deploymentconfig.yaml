@@ -1,11 +1,13 @@
 apiVersion: apps.openshift.io/v1
 kind: DeploymentConfig
 metadata:
+  annotations:
+    kompose.service.expose: "true"
   creationTimestamp: null
   labels:
     io.kompose.service: quarkus-petclinic-native
   name: quarkus-petclinic-native
-  namespace: default
+  namespace: thebigsasha-bcexam-dev
 spec:
   replicas: 1
   selector:

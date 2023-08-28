@@ -1,5 +1,4 @@
 version: "3.0"
-
 services:
   quarkus-petclinic-native:
     # Build the native image first with the following command: mvn -P native -DskipTests package
@@ -18,6 +17,8 @@ services:
         condition: service_healthy
     networks:
       - petclinic
+    labels:
+      kompose.service.expose: "true"
 
   quarkus-petclinic-db:
     image: "postgres:14"

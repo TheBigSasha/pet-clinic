@@ -51,6 +51,10 @@ Need to have an account to quay.io with writting permissions to rhdevelopers org
 ----
 
 # OpenShift
-This repo auto deploys on commit on openshift using webhooks.
-
-See deployment at: https://quarkus-petclinic-bc-thebigsasha-dev.apps.sandbox-m3.1530.p1.openshiftapps.com/
+This repo auto deploys on commit on openshift using `kompose`, `oc`, and `kubectl` commands.
+```bash
+oc login #... your dev sandbox login
+oc new-project petclinic
+kompose convert -f docker-compose.yml --provider=openshift -n petclinic
+kubectl apply -f . -n petclinic
+```
