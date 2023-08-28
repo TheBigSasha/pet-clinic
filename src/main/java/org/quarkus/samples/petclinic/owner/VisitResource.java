@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.validation.ConstraintViolation;
@@ -23,8 +24,9 @@ import javax.ws.rs.core.MediaType;
 import io.quarkus.qute.TemplateInstance;
 
 @Path("/owners")
+@RolesAllowed("admin")
 public class VisitResource {
-    
+
     @Inject
     TemplatesLocale templates;
 
@@ -48,7 +50,7 @@ public class VisitResource {
         final Set<ConstraintViolation<Visit>> violations = validator.validate(visit);
         final Map<String, String> errors = new HashMap<>();
         if (!violations.isEmpty()) {
-            
+
             for (ConstraintViolation<Visit> violation : violations) {
                 errors.put(violation.getPropertyPath().toString(), violation.getMessage());
             }
@@ -56,7 +58,7 @@ public class VisitResource {
             return templates.createOrUpdateVisitForm(pet, visit, errors);
 
         } else {
-            
+
             visit.persist();
 
             pet.addVisit(visit);

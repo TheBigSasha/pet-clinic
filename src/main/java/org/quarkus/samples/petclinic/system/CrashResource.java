@@ -7,7 +7,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 @Path("/oups")
-@PermitAll
+@PermitAll // Crash page is accessible to all users
 public class CrashResource {
 
     @GET

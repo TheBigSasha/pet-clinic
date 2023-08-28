@@ -116,4 +116,7 @@ public interface AppMessages {
 
     @Message("Welcome, guest")
     String welcome_guest();
+
+    @Message("Welcome! Please login to continue.")
+    String welcome_login();
 }

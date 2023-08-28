@@ -132,4 +132,9 @@ public interface SpanishAppMessages extends AppMessages {
     @Override
     @Message("nombre de usuario")
     String username();
+
+    @Override
+    @Message("Bienvenido, por favor inicie sesión para continuar")
+    String welcome_login();
+
 }

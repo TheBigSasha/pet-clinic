@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.validation.ConstraintViolation;
@@ -24,8 +25,9 @@ import javax.ws.rs.core.MediaType;
 import io.quarkus.qute.TemplateInstance;
 
 @Path("/owners")
+@RolesAllowed("admin")
 public class PetResource {
-    
+
     @Inject
     TemplatesLocale templates;
 
@@ -52,7 +54,7 @@ public class PetResource {
     @Transactional
     public TemplateInstance processCreationForm(@PathParam("ownerId") Long ownerId, @FormParam("name") String name, @FormParam("birthDate") LocalDate birthDate, @FormParam("type") String type) {
         Owner owner = Owner.findById(ownerId);
-        
+
         Pet pet = new Pet();
         pet.birthDate = birthDate;
         pet.name = name;
@@ -62,7 +64,7 @@ public class PetResource {
         final Set<ConstraintViolation<Pet>> violations = validator.validate(pet);
         final Map<String, String> errors = new HashMap<>();
         if (!violations.isEmpty()) {
-            
+
             for (ConstraintViolation<Pet> violation : violations) {
                 errors.put(violation.getPropertyPath().toString(), violation.getMessage());
             }
@@ -91,7 +93,7 @@ public class PetResource {
         final Set<ConstraintViolation<Pet>> violations = validator.validate(pet);
         final Map<String, String> errors = new HashMap<>();
         if (!violations.isEmpty()) {
-            
+
             for (ConstraintViolation<Pet> violation : violations) {
                 errors.put(violation.getPropertyPath().toString(), violation.getMessage());
             }

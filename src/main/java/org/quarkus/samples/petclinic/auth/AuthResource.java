@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+@Path("/")
 
 public class AuthResource {
     @Inject
@@ -27,11 +28,6 @@ public class AuthResource {
     @GET
     @Path("/login")
     @Produces(MediaType.TEXT_HTML)
-    /**
-     * Renders the login.html
-     *
-     * @return
-     */
     public TemplateInstance loginTemplate() {
         return templates.login(Collections.EMPTY_LIST);
     }
