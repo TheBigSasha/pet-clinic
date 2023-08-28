@@ -9,12 +9,15 @@ import io.quarkus.test.common.http.TestHTTPEndpoint;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
 import org.quarkus.samples.petclinic.owner.OwnersResource;
+import io.quarkus.test.security.TestSecurity;
+
 
 @QuarkusTest
 @TestHTTPEndpoint(OwnersResource.class)
 public class OwnersResourceTest {
 
     @Test
+    @TestSecurity(user = "jeff", roles = {"admin"})
     void findPage() {
         when().get("find").then()
                 .statusCode(200)
@@ -22,6 +25,7 @@ public class OwnersResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "jeff", roles = {"admin"})
     void findAll() {
         when().get("?lastName=").then()
                 .statusCode(200)
@@ -30,6 +34,7 @@ public class OwnersResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "jeff", roles = {"admin"})
     void existingOwner() {
         when().get("1001").then()
                 .statusCode(200)
@@ -38,6 +43,7 @@ public class OwnersResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "jeff", roles = {"admin"})
     void invalidOwner() {
         when().get("1").then()
                 .statusCode(200)
