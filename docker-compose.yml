@@ -13,7 +13,7 @@ services:
       - QUARKUS_DATASOURCE_PASSWORD=developer
       - KEYCLOAK_URL=http://keycloak-petclinic:8080
       - KEYCLOAK_REALM=quarkus
-      - KEYCLOAK_CLIENT_SECRET=secret
+      - KEYCLOAK_CLIENT_SECRET=secret #Make sure to configure this correctly before running the app
       - "8080:8080"
     expose:
       - "8080"
